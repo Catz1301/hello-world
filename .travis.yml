@@ -1,6 +1,4 @@
-language: ruby
-rvm:
- - 2.2
- - jruby
+language: java
+dist: bionic
 before_install:
-  - sudo apt-get install -y libxml2-dev
+  - sudo apt-get install -y libxml2-dev openjdk-11-jdk
