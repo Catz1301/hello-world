@@ -1,4 +1,29 @@
-language: java
-dist: bionic
+sudo: required
+dist: trusty
+
+env:
+  global:
+    - CC_TEST_REPORTER_ID=7d3d8a29f4d51115205e916c5def5047cfe30631c2c9959d603bd015f04b725f
+
+language: node_js
+
+node_js:
+  - stable
+
+
+
 before_install:
-  - sudo apt-get install -y libxml2-dev openjdk-11-jdk
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+script:
+  - unset _JAVA_OPTIONS
+  - npm test
+
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
